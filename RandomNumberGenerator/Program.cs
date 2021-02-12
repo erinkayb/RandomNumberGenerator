@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -42,6 +43,7 @@ namespace RandomNumberGenerator
         public static void Shuffle<T>(this IList<T> list)
         {
             int size = list.Count;
+
             while (size > 1)
             {
                 size--;
@@ -59,25 +61,58 @@ namespace RandomNumberGenerator
 
             numbers.Shuffle();
 
-            // Asserts uniqueness of each number.
-            Debug.Assert(numbers.Distinct().Count() == 10000);
-            // Asserts a random order for the numbers list.
-            Debug.Assert(TestOrder(originalNumbers, numbers));
-
             numbers.ForEach(number => Console.Write("[{0}], ", number));
         }
-
-        /// <summary>
-        /// Asserts that the original list is in a different order.
-        /// Note: Could be flawed as it is possible a random sort returns the same input. However with 10,000 numbers, that is rare.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="original"></param>
-        /// <param name="randomized"></param>
-        /// <returns></returns>
-        public static bool TestOrder<T>(IList<T> original, IList<T> randomized)
-        {
-            return !original.SequenceEqual(randomized);
-        }
     }
+
+
+    //public static class Program
+    //{
+    //    static Random _random = new Random();
+
+    //    static void Main()
+    //    {
+    //        List<int> numbers = new List<int>(Enumerable.Range(1, 10000));
+    //        List<int> shuffle = (List<int>)RandomizeList(numbers);
+    //        foreach (int i in shuffle)
+    //        {
+    //            Console.WriteLine(i);
+    //        }
+    //    }
+
+    //    /// <summary>
+    //    /// 1. Put all ints from the list in a key value pair
+    //    /// 2. Add a random int to each key value pair
+    //    /// 3. Sort the new keyvaluepair list by the random number we created
+    //    /// 4. Create a new list with the sorted ints
+    //    /// 5. Return that new list with the random sorted numbers
+    //    /// </summary>
+    //    /// <param name="arr"></param>
+    //    /// <returns></returns>
+    //    public static IList RandomizeList(this IList numberList)
+    //    {
+    //        List<KeyValuePair<int, int>> list = new List<KeyValuePair<int, int>>();
+
+    //        foreach (int i in numberList)
+    //        {
+    //            list.Add(new KeyValuePair<int, int>(_random.Next(), i));
+    //        }
+
+    //        var sorted = from item in list 
+    //                     orderby item.Key
+    //                     select item;
+
+    //        // this is needed because the foreach uses the index of the current list.
+    //        List<int> result = new List<int>((IEnumerable<int>)numberList);
+
+    //        int index = 0;
+    //        foreach (KeyValuePair<int, int> pair in sorted)
+    //        {
+    //            result[index] = pair.Value;
+    //            index++;
+    //        }
+
+    //        return result;
+    //    }
 }
+
